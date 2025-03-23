@@ -2,6 +2,7 @@ package technical.assessment.demo;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DoRepository extends MongoRepository<DoList,String> {
@@ -10,4 +11,5 @@ public interface DoRepository extends MongoRepository<DoList,String> {
     Optional<DoList> findById(String userId);
 
     void deleteById(Integer userId);
+    List<DoList> findByStatus(String status);
 }

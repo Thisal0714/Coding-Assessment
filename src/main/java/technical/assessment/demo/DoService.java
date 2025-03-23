@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -123,6 +124,33 @@ public class DoService {
             doDto.setMessage("Error updating task status: " + e.getMessage());
             System.out.println("Error occurred while updating task status: " + e.getMessage());
         }
+        return doDto;
+    }
+
+    public DoDto searchTaskByStatus(String status){
+        DoDto doDto=new DoDto();
+        try {
+            List<DoList> tasks = doRepository.findByStatus(status);
+
+            if (tasks.isEmpty()) {
+                throw new NoSuchElementException("No active tasks found.");
+            }
+
+            doDto.setDoLists(tasks);
+            doDto.setStatusCode(200);
+            doDto.setMessage("Tasks for status '" + status + "' found successfully");
+
+        } catch (NoSuchElementException e) {
+            doDto.setStatusCode(404);
+            doDto.setError("Not Found");
+            doDto.setMessage(e.getMessage());
+
+        } catch (Exception e) {
+            doDto.setStatusCode(500);
+            doDto.setError("Internal Server Error");
+            doDto.setMessage("An unexpected error occurred: " + e.getMessage());
+        }
+        System.out.println(doDto);
         return doDto;
     }
 }

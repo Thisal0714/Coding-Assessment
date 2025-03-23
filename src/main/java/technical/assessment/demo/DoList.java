@@ -17,8 +17,9 @@ public class DoList {
     @Id
     private String title;
     private String description;
-    private LocalDateTime createdTime;
     private String dueDate;
+    private LocalDateTime createdTime;
+
     private Status status = Status.ACTIVE;
 
     public Status getStatus() {

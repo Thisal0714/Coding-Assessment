@@ -44,4 +44,31 @@ public class DoController {
             return ResponseEntity.status(500).body(errorResponse);
         }
     }
+    @GetMapping("/getActiveTasks")
+    public ResponseEntity<DoDto> searchTasksByStatus(String status) {
+        status="ACTIVE";
+        DoDto doDto = doService.searchTaskByStatus(status);
+
+        if (doDto.getStatusCode() == 200) {
+            return ResponseEntity.ok(doDto);
+        } else if (doDto.getStatusCode() == 404) {
+            return ResponseEntity.status(404).body(doDto);
+        } else {
+            return ResponseEntity.status(500).body(doDto);
+        }
+    }
+
+    @GetMapping("/getCompletedTasks")
+    public ResponseEntity<DoDto> searchCompletedTasksByStatus(String status) {
+        status="COMPLETED";
+        DoDto doDto = doService.searchTaskByStatus(status);
+
+        if (doDto.getStatusCode() == 200) {
+            return ResponseEntity.ok(doDto);
+        } else if (doDto.getStatusCode() == 404) {
+            return ResponseEntity.status(404).body(doDto);
+        } else {
+            return ResponseEntity.status(500).body(doDto);
+        }
+    }
 }
